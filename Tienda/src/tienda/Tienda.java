@@ -5,6 +5,7 @@
  */
 package tienda;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -14,10 +15,7 @@ import java.util.Scanner;
 public class Tienda {
 
     
-
-    private Producto[] productos;
-    
-    private Producto[][] productos2;
+    private ArrayList<Producto> productos;
 
     private int totalPagar = 0;
 
@@ -25,18 +23,20 @@ public class Tienda {
 
     }
 
-    public Tienda(Producto[] productos) {
+    public Tienda(ArrayList<Producto> productos) {
         this.productos = productos;
     }
 
-    public Producto[] getProductos() {
+    public ArrayList<Producto> getProductos() {
         return productos;
     }
 
-    public void setProductos(Producto[] productos) {
+    public void setProductos(ArrayList<Producto> productos) {
         this.productos = productos;
     }
 
+
+    
     public int getTotalPagar() {
         return totalPagar;
     }
@@ -46,10 +46,14 @@ public class Tienda {
     }    
 
     public void mostrarProductos(){
-        for (int i = 0; i < productos.length; i++) {
-            Producto producto = productos[i];
-            System.out.println(i+1 + " - " + producto.nombre + ": " + producto.valor);
+        int i = 1;
+        for(Producto producto: productos){
+            System.out.println( i++ + " - " + producto.nombre + ": " + producto.valor);
         }
+    }
+    
+    public boolean agregarProducto(Producto producto){
+        return productos.add(producto);
     }
     
     
@@ -69,6 +73,7 @@ public class Tienda {
             
             int opcionProducto = 0;
             
+            
             //en tienda
             while (opcion == 1) {
                 System.out.println("");
@@ -78,13 +83,13 @@ public class Tienda {
                 //seleccion de producto
                 do {
                     opcionProducto = sc.nextInt();    
-                } while (opcionProducto < 0 || opcionProducto > productos.length+1);
+                } while (opcionProducto < 0 || opcionProducto > productos.size());
                 
                 if (opcionProducto == 0) {
                     break;
                 }
                 
-                Producto producto = productos[opcionProducto-1];
+                Producto producto = productos.get(opcionProducto-1);
                 
                 System.out.println("producto: " + producto.nombre + " " + producto.valor);
                 
@@ -110,14 +115,14 @@ public class Tienda {
     }
 
     public static void main(String[] args) {
-        Producto[] productos = new Producto[]{
-            new Producto("Burger", 20),
-            new Producto("Gaseosa", 10)
-        };
+        ArrayList<Producto> productos = new ArrayList<>();
         
         Tienda tienda = new Tienda(productos);
 //        inventario.mostrarProductos();
-        tienda.menu();
+
+           tienda.agregarProducto(new Producto("Burger", 20)); 
+           tienda.agregarProducto(new Producto("Gaseosa", 10));
+           tienda.menu();
     }
 
 }
